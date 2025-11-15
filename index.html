@@ -794,7 +794,7 @@
         "部分 /部分錯誤",
         "並無相關表述"
       ],
-      "correctAnswer": 2
+      "correctAnswer": 3
     },
     {
       "question": "依據《澳門特別行政區經濟適度多元發展規劃（ 2024 -2028年）》，鼓勵中 醫藥大健康產業業界用好用足內地及深合區政策，打造更多（）品牌。 （《澳門特別行政區經濟適度多元發展規劃（2024-2028年）》）",
@@ -3386,6 +3386,12 @@
                 choiceDiv.className = 'choice';
                 if (userAnswers[globalIdx] === choiceIdx) {
                     choiceDiv.classList.add('selected');
+                } else {
+                    choiceDiv.addEventListener('click', () => {
+                    userAnswers[globalIdx] = choiceIdx;
+                    displayQuestions();
+                    updateStats();
+                  });
                 }
 
                 const radio = document.createElement('input');
