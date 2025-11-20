@@ -282,6 +282,7 @@
             <button class="btn-primary" id="prevBtn">← Previous</button>
             <span id="pageInfo">Page 1 of 1</span>
             <button class="btn-primary" id="nextBtn">Next →</button>
+            <button class="btn-primary" id="lastBtn">Last Page ⇥</button>
         </div>
 
         <div id="questionsContainer">
@@ -3314,6 +3315,7 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const pageInfo = document.getElementById('pageInfo');
+        const lastBtn = document.getElementById('lastBtn');
 
         // Load questions on page load
         loadQuestions();
@@ -3324,6 +3326,7 @@
         exportWrongBtn.addEventListener('click', exportWrongQuestions);
         prevBtn.addEventListener('click', () => changePage(-1));
         nextBtn.addEventListener('click', () => changePage(1));
+        lastBtn.addEventListener('click', goToLastPage);
 
         function loadQuestions() {
             try {
@@ -3547,12 +3550,19 @@
             currentPage = Math.max(1, Math.min(currentPage + direction, totalPages));
             displayQuestions();
         }
+        
+        function goToLastPage() {
+    		const totalPages = Math.ceil(allQuestions.length / questionsPerPage);
+    		currentPage = totalPages;
+    		displayQuestions();
+		}
 
         function updatePagination() {
             const totalPages = Math.ceil(allQuestions.length / questionsPerPage);
             pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = currentPage === totalPages;
+            lastBtn.disabled = currentPage === totalPages;
         }
 
         function updateStats() {
