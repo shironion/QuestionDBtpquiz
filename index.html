@@ -289,6 +289,7 @@
             <div class="loading">
                 <h2>Loading questions...</h2>
             </div>
+            <button class="btn-primary" id="returntop">Return to top of page</button>button>
         </div>
     </div>
 
@@ -3316,6 +3317,7 @@
         const nextBtn = document.getElementById('nextBtn');
         const lastBtn = document.getElementById('lastBtn');
         const pageInfo = document.getElementById('pageInfo');
+        const returntop = document.getElementById('returntop');
 
         // Load questions on page load
         loadQuestions();
@@ -3327,6 +3329,7 @@
         prevBtn.addEventListener('click', () => changePage(-1));
         nextBtn.addEventListener('click', () => changePage(1));
         lastBtn.addEventListener('click', goToLastPage);
+        returntop.addEventListener('click', returntotopofpage);
 
         function loadQuestions() {
             try {
@@ -3581,6 +3584,10 @@
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = currentPage === totalPages;
             lastBtn.disabled = currentPage === totalPages;
+        }
+
+        function returntotopofpage() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function updateStats() {
