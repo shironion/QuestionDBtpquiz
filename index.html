@@ -1,295 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multiple Choice Quiz</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>時政知識問答比賽題庫（300 題）</title>
+<style>
+    /* ------------------------------ */
+    /*  Global WCAG-friendly Styling  */
+    /* ------------------------------ */
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
+    :root {
+        --primary: #4c63d3;
+        --primary-hover: #3a4fb5;
+        --secondary: #2f9e68;
+        --secondary-hover: #238255;
+        --danger: #d64545;
+        --danger-hover: #b73737;
+        --radius: 14px;
+        --max-width: 800px;
+        --text-color: #1a1a1a;
+    }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            padding: 30px;
-        }
+    *, *::before, *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-        }
+    body {
+        font-family: system-ui, sans-serif;
+        background: linear-gradient(135deg, #f5f0ff 0%, #caeefc 100%);
+        padding: 16px;
+        line-height: 1.6;
+        color: var(--text-color);
+    }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 2px solid #eee;
-        }
+    h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
 
-        button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
+    /* ------------------------------ */
+    /*  Controls Section              */
+    /* ------------------------------ */
 
-        .btn-primary {
-            background: #667eea;
-            color: white;
-        }
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+        margin: 0 auto 20px;
+        max-width: var(--max-width);
+    }
 
-        .btn-primary:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-        }
+    button {
+        padding: 12px 20px;
+        font-size: 1rem;
+        border-radius: var(--radius);
+        border: none;
+        cursor: pointer;
+        font-weight: 600;
+        transition: background-color .25s, transform .25s;
+        line-height: 1.2;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 12px;
+        margin-right: 12px;
+    }
 
-        .btn-secondary {
-            background: #48bb78;
-            color: white;
-        }
+    button:focus {
+        outline: 3px solid #000;
+        outline-offset: 3px;
+    }
 
-        .btn-secondary:hover {
-            background: #38a169;
-            transform: translateY(-2px);
-        }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-hover); transform: translateY(-2px); }
 
-        .btn-danger {
-            background: #f56565;
-            color: white;
-        }
+    .btn-secondary { background: var(--secondary); color: white; }
+    .btn-secondary:hover { background: var(--secondary-hover); transform: translateY(-2px); }
 
-        .btn-danger:hover {
-            background: #e53e3e;
-            transform: translateY(-2px);
-        }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: var(--danger-hover); transform: translateY(-2px); }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 30px;
-        }
+    /* ------------------------------ */
+    /*  Stats Block                   */
+    /* ------------------------------ */
 
-        .pagination button {
-            padding: 8px 16px;
-        }
+    .stats {
+        max-width: var(--max-width);
+        margin: 0 auto 20px;
+        background: white;
+        border-radius: var(--radius);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        display: flex;
+        justify-content: space-around;
+        padding: 16px;
+    }
 
-        .pagination span {
-            font-weight: 600;
-            color: #666;
-        }
+    .stat-item { text-align: center; }
+    .stat-value { font-size: 1.8rem; color: var(--primary); font-weight: 700; }
+    .stat-label { font-size: .9rem; color: #666; }
 
-        .question-card {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 2px solid #e9ecef;
-        }
+    /* ------------------------------ */
+    /* Pagination                     */
+    /* ------------------------------ */
 
-        .question-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 15px;
-        }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin: 0 auto 24px;
+        max-width: var(--max-width);
+    }
 
-        .question-number {
-            background: #667eea;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 600;
-        }
+    #pageInfo { 
+        font-weight: 700; 
+        justify-content: center;
+        align-content: center;
+        flex-direction: row;
+    }
 
-        .question-text {
-            font-size: 18px;
-            color: #333;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
+    /* ------------------------------ */
+    /* Question Cards                 */
+    /* ------------------------------ */
 
-        .choices {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 15px;
-        }
+    #questionsContainer {
+        max-width: var(--max-width);
+        margin: 0 auto;
+    }
 
-        .choice {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background: white;
-            border: 2px solid #dee2e6;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+    .question-card {
+        background: white;
+        border-radius: var(--radius);
+        padding: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #e3e7ef;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    }
 
-        .choice:hover {
-            border-color: #667eea;
-            background: #f0f4ff;
-        }
+    .question-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
 
-        .choice.selected {
-            border-color: #667eea;
-            background: #e0e7ff;
-        }
+    .question-number {
+        background: var(--primary);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+    }
 
-        .choice.correct {
-            border-color: #48bb78;
-            background: #c6f6d5;
-        }
+    .question-text {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+    }
 
-        .choice.incorrect {
-            border-color: #f56565;
-            background: #fed7d7;
-        }
+    .choices {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 
-        .choice.disabled {
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
+    .choice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #fafbfe;
+        padding: 12px;
+        border-radius: var(--radius);
+        border: 1px solid #d8dce6;
+        cursor: pointer;
+        transition: background-color .25s, border-color .25s;
+    }
 
-        .choice input[type="radio"] {
-            margin-right: 12px;
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
-        }
+    .choice:hover { background: #eef2ff; border-color: var(--primary); }
+    .choice.selected { background: #e0e7ff; border-color: var(--primary); }
+    .choice.correct { background: #d9f6e7; border-color: var(--secondary); }
+    .choice.incorrect { background: #fde2e2; border-color: var(--danger); }
+    .choice.disabled { opacity: 0.6; cursor: not-allowed; }
 
-        .choice-text {
-            flex: 1;
-            font-size: 16px;
-            color: #333;
-        }
+    .choice input[type="radio"] {
+        width: 20px;
+        height: 20px;
+    }
 
-        .question-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+    .feedback {
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: var(--radius);
+        font-weight: 600;
+    }
 
-        .feedback {
-            margin-top: 15px;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-        }
+    .feedback.correct { background: #d9f6e7; border-left: 5px solid var(--secondary); }
+    .feedback.incorrect { background: #fde2e2; border-left: 5px solid var(--danger); }
 
-        .feedback.correct {
-            background: #c6f6d5;
-            color: #22543d;
-            border: 2px solid #48bb78;
-        }
+    /* ------------------------------ */
+    /* Loading / Error                 */
+    /* ------------------------------ */
 
-        .feedback.incorrect {
-            background: #fed7d7;
-            color: #742a2a;
-            border: 2px solid #f56565;
-        }
+    .loading { text-align: center; padding: 40px; color: #777; }
+    .error {
+        background: #fde2e2;
+        border-left: 6px solid var(--danger);
+        padding: 16px;
+        border-radius: var(--radius);
+        margin-bottom: 20px;
+    }
 
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+    /* ------------------------------ */
+    /* Mobile Responsiveness (WCAG)   */
+    /* ------------------------------ */
 
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 32px;
-            font-weight: 700;
-            color: #667eea;
-        }
-
-        .stat-label {
-            font-size: 14px;
-            color: #666;
-            margin-top: 5px;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .error {
-            background: #fed7d7;
-            border: 2px solid #f56565;
-            color: #742a2a;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-    </style>
+    @media (max-width: 480px) {
+        h1 { font-size: 1.4rem; }
+        button { font-size: .9rem; padding: 8px 14px; }
+        .stat-value { font-size: 1.4rem; }
+        .question-text { font-size: 1rem; }
+        .choice { padding: 10px; }
+        body { padding: 10px; }
+    }
+</style>
 </head>
-<body>
-    <div class="container">
-        <h1>《中國‧澳門》時政知識問答比賽題庫（300 題）</h1>
-        
-        <div class="controls">
-            <button class="btn-primary" id="randomizeBtn">🔀 Randomize Questions</button>
-            <button class="btn-secondary" id="showAllAnswersBtn">👁️ Show All Answers</button>
-            <button class="btn-danger" id="clearChoicesBtn">🗑️ Clear All Choices</button>
-            <button class="btn-secondary" id="exportWrongBtn">📥 Export Wrong Questions</button>
-        </div>
-
-        <div class="stats" id="stats">
-            <div class="stat-item">
-                <div class="stat-value" id="totalQuestions">0</div>
-                <div class="stat-label">Total Questions</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="answeredCount">0</div>
-                <div class="stat-label">Answered</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value" id="correctCount">0</div>
-                <div class="stat-label">Correct</div>
-            </div>
-        </div>
-
-        <div class="pagination" id="pagination">
-            <button class="btn-primary" id="prevBtn">← Previous</button>
-            <span id="pageInfo">Page 1 of 1</span>
-            <button class="btn-primary" id="nextBtn">Next →</button>
-        </div>
-
-        <div id="questionsContainer">
-            <div class="loading">
-                <h2>Loading questions...</h2>
-            </div>
-        </div>
-    </div>
 
     <script>
         // ==================== QUESTIONS DATA ====================
