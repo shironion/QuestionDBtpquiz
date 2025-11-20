@@ -3534,7 +3534,6 @@ input[type="radio"]:focus-visible {
         const randomizeBtn = document.getElementById('randomizeBtn');
         const showAllAnswersBtn = document.getElementById('showAllAnswersBtn');
         const clearChoicesBtn = document.getElementById('clearChoicesBtn');
-        const exportWrongBtn = document.getElementById('exportWrongBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const lastBtn = document.getElementById('lastBtn');
@@ -3547,7 +3546,6 @@ input[type="radio"]:focus-visible {
         randomizeBtn.addEventListener('click', randomizeQuestions);
         showAllAnswersBtn.addEventListener('click', showAllAnswers);
         clearChoicesBtn.addEventListener('click', clearAllChoices);
-        exportWrongBtn.addEventListener('click', exportWrongQuestions);
         prevBtn.addEventListener('click', () => changePage(-1));
         nextBtn.addEventListener('click', () => changePage(1));
         lastBtn.addEventListener('click', goToLastPage);
