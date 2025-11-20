@@ -227,7 +227,46 @@
     }
 </style>
 </head>
-    
+
+<h1>《中國‧澳門》時政知識問答比賽題庫（300 題）</h1>
+
+<div class="controls">
+    <button class="btn-primary" id="randomizeBtn">🔀 Randomize Questions</button>
+    <button class="btn-secondary" id="showAllAnswersBtn">👁️ Show All Answers</button>
+    <button class="btn-danger" id="clearChoicesBtn">🗑️ Clear All Choices</button>
+    <button class="btn-secondary" id="exportWrongBtn">📥 Export Wrong Questions</button>
+</div>
+
+<div class="stats" id="stats">
+    <div class="stat-item">
+        <div class="stat-value" id="totalQuestions">0</div>
+        <div class="stat-label">Total Questions</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value" id="answeredCount">0</div>
+        <div class="stat-label">Answered</div>
+    </div>
+    <div class="stat-item">
+        <div class="stat-value" id="correctCount">0</div>
+        <div class="stat-label">Correct</div>
+    </div>
+</div>
+
+<div class="pagination" id="pagination">
+    <button class="btn-primary" id="prevBtn">← Previous</button>
+    <span id="pageInfo">Page 1 of 1</span>
+    <button class="btn-primary" id="nextBtn">Next →</button>
+    <button class="btn-primary" id="lastBtn">Last Page ⇥</button>
+</div>
+
+<div id="questionsContainer">
+    <div class="loading"><h2>Loading questions...</h2></div>
+</div>
+
+<div class="footer" style="text-align: center; margin-top: 20px;">
+    <button class="btn-primary" id="returntop">Return to top of page</button>
+</div>
+
     <script>
         // ==================== QUESTIONS DATA ====================
         // Add your questions here in the following format:
