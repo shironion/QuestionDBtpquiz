@@ -3507,10 +3507,26 @@
         function randomizeQuestions() {
             if (allQuestions.length === 0) return;
 
+            // *** CHANGED: Shuffle questions ***
             for (let i = allQuestions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
             }
+
+            // *** CHANGED: Shuffle choices within each question ***
+            allQuestions.forEach(question => {
+                const originalChoices = [...question.choices];
+                const correctChoice = originalChoices[question.correctAnswer];
+                
+                // Shuffle choices
+                for (let i = question.choices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [question.choices[i], question.choices[j]] = [question.choices[j], question.choices[i]];
+                }
+                
+                // Update correctAnswer to new index
+                question.correctAnswer = question.choices.indexOf(correctChoice);
+            });
 
             userAnswers = {};
             revealedAnswers = {};
