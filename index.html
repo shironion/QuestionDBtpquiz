@@ -299,12 +299,13 @@ button:active {
 .feedback.correct { 
     background: #d9f6e7;
     border-left: 5px solid var(--secondary);
-    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .feedback.incorrect { 
     background: #fde2e2;
     border-left: 5px solid var(--danger);
+    margin-top: 20px;
 }
 
 /* ------------------------------ */
@@ -371,6 +372,14 @@ button:active {
         min-width: 44px;
         padding: 10px 14px;
     }
+
+    .feedback.correct {
+      margin-top: 10px;
+    }
+
+    .feedback.incorrect {
+      margin-top: 10px;
+    }
 }
 
 @media (max-width: 400px) {
@@ -393,6 +402,19 @@ button:active {
 
     .question-card {
         padding: 14px;
+    }
+
+    .question-card button {
+      margin-top: 10px;
+      margin-right: 10px;
+    }
+
+    .feedback.correct {
+      margin-top: 8px;
+    }
+
+    .feedback.incorrect {
+      margin-top: 8px;
     }
 }
 
