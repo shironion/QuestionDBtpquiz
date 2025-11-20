@@ -110,7 +110,7 @@ button:active {
     max-width: var(--max-width);
     width: 100%;
     margin: 0 auto 20px;
-    background: white;
+    background: rgba(255, 255, 255, 0.5);
     border-radius: var(--radius);
     box-shadow: 0 4px 10px rgba(0,0,0,0.06);
     display: flex;
@@ -180,11 +180,11 @@ button:active {
 }
 
 .question-card {
-    background: white;
+    background: rgba(255,255,255,0.5);
     border-radius: var(--radius);
     padding: clamp(20px, 5vw, 30px);
     margin-bottom: 20px;
-    border: 1px solid #e3e7ef;
+    border: none;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
@@ -228,7 +228,7 @@ button:active {
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    background: #fafbfe;
+    background: rgba(250, 250, 250, 0.8);
     padding: 14px;
     border-radius: var(--radius);
     border: 2px solid #d8dce6;
@@ -485,7 +485,6 @@ input[type="radio"]:focus-visible {
     <button class="btn-primary" id="randomizeBtn">🔀 Randomize Questions</button>
     <button class="btn-secondary" id="showAllAnswersBtn">👁️ Show All Answers</button>
     <button class="btn-danger" id="clearChoicesBtn">🗑️ Clear All Choices</button>
-    <button class="btn-secondary" id="exportWrongBtn">📥 Export Wrong Questions</button>
 </div>
 
 <div class="stats" id="stats">
