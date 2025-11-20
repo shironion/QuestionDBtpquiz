@@ -289,7 +289,6 @@
             <div class="loading">
                 <h2>Loading questions...</h2>
             </div>
-            <button class="btn-primary" id="returntop">Return to top of page</button>button>
         </div>
     </div>
 
@@ -3317,7 +3316,6 @@
         const nextBtn = document.getElementById('nextBtn');
         const lastBtn = document.getElementById('lastBtn');
         const pageInfo = document.getElementById('pageInfo');
-        const returntop = document.getElementById('returntop');
 
         // Load questions on page load
         loadQuestions();
@@ -3329,7 +3327,6 @@
         prevBtn.addEventListener('click', () => changePage(-1));
         nextBtn.addEventListener('click', () => changePage(1));
         lastBtn.addEventListener('click', goToLastPage);
-        returntop.addEventListener('click', returntotopofpage);
 
         function loadQuestions() {
             try {
@@ -3386,6 +3383,11 @@
 
             const choicesDiv = document.createElement('div');
             choicesDiv.className = 'choices';
+
+            const returntop = document.ceateElement('button');
+            returntop.className = 'btn-primary';
+            returntop.textContent = 'Return to top of page';
+            returntop.addEventListener('click', returntotopofpage);
 
             question.choices.forEach((choice, choiceIdx) => {
                 const choiceDiv = document.createElement('div');
