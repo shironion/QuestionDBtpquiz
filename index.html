@@ -282,7 +282,6 @@
             <button class="btn-primary" id="prevBtn">← Previous</button>
             <span id="pageInfo">Page 1 of 1</span>
             <button class="btn-primary" id="nextBtn">Next →</button>
-            <button class="btn-primary" id="lastBtn">Last Page ⇥</button>
         </div>
 
         <div id="questionsContainer">
@@ -3315,7 +3314,6 @@
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const pageInfo = document.getElementById('pageInfo');
-        const lastBtn = document.getElementById('lastBtn');
 
         // Load questions on page load
         loadQuestions();
@@ -3326,7 +3324,6 @@
         exportWrongBtn.addEventListener('click', exportWrongQuestions);
         prevBtn.addEventListener('click', () => changePage(-1));
         nextBtn.addEventListener('click', () => changePage(1));
-        lastBtn.addEventListener('click', goToLastPage);
 
         function loadQuestions() {
             try {
@@ -3389,6 +3386,12 @@
                 choiceDiv.className = 'choice';
                 if (userAnswers[globalIdx] === choiceIdx) {
                     choiceDiv.classList.add('selected');
+                } else {
+                    choiceDiv.addEventListener('click', () => {
+                    userAnswers[globalIdx] = choiceIdx;
+                    displayQuestions();
+                    updateStats();
+                  });
                 }
 
                 const radio = document.createElement('input');
@@ -3400,19 +3403,12 @@
                 if (revealedAnswers[globalIdx]) {
                     choiceDiv.classList.add('disabled');
                     radio.disabled = true;
-                    if (choiceIdx === question.correctAnswer) {
+                    if (choiceIdx === (question.correctAnswer -1)) {
                         choiceDiv.classList.add('correct');
                     }
-                    if (userAnswers[globalIdx] === choiceIdx && choiceIdx !== question.correctAnswer) {
+                    if (userAnswers[globalIdx] === choiceIdx && choiceIdx !== (question.correctAnswer -1)) {
                         choiceDiv.classList.add('incorrect');
                     }
-                } else {
-                    // *** CHANGED: Make entire choice box clickable ***
-                    choiceDiv.addEventListener('click', () => {
-                        userAnswers[globalIdx] = choiceIdx;
-                        displayQuestions();
-                        updateStats();
-                    });
                 }
 
                 radio.addEventListener('change', () => {
@@ -3508,26 +3504,10 @@
         function randomizeQuestions() {
             if (allQuestions.length === 0) return;
 
-            // *** CHANGED: Shuffle questions ***
             for (let i = allQuestions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
             }
-
-            // *** CHANGED: Shuffle choices within each question ***
-            allQuestions.forEach(question => {
-                const originalChoices = [...question.choices];
-                const correctChoice = originalChoices[question.correctAnswer];
-                
-                // Shuffle choices
-                for (let i = question.choices.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [question.choices[i], question.choices[j]] = [question.choices[j], question.choices[i]];
-                }
-                
-                // Update correctAnswer to new index
-                question.correctAnswer = question.choices.indexOf(correctChoice);
-            });
 
             userAnswers = {};
             revealedAnswers = {};
@@ -3573,7 +3553,6 @@
             pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
             prevBtn.disabled = currentPage === 1;
             nextBtn.disabled = currentPage === totalPages;
-            lastBtn.disabled = currentPage === totalPages;
         }
 
         function updateStats() {
@@ -3586,12 +3565,6 @@
                 return revealedAnswers[idx] && userAnswers[idx] === (q.correctAnswer -1);
             }).length;
             document.getElementById('correctCount').textContent = correct;
-        }
-        
-        function goToLastPage() {
-            const totalPages = Math.ceil(allQuestions.length / questionsPerPage);
-            currentPage = totalPages;
-            displayQuestions();
         }
     </script>
 </body>
