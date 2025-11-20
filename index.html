@@ -3301,7 +3301,7 @@
         };
         // ========================================================
 
-        let allQuestions = [];
+   let allQuestions = [];
         let currentPage = 1;
         const questionsPerPage = 10;
         let userAnswers = {};
@@ -3314,8 +3314,8 @@
         const exportWrongBtn = document.getElementById('exportWrongBtn');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
-        const pageInfo = document.getElementById('pageInfo');
         const lastBtn = document.getElementById('lastBtn');
+        const pageInfo = document.getElementById('pageInfo');
 
         // Load questions on page load
         loadQuestions();
@@ -3389,12 +3389,6 @@
                 choiceDiv.className = 'choice';
                 if (userAnswers[globalIdx] === choiceIdx) {
                     choiceDiv.classList.add('selected');
-                } else {
-                    choiceDiv.addEventListener('click', () => {
-                    userAnswers[globalIdx] = choiceIdx;
-                    displayQuestions();
-                    updateStats();
-                  });
                 }
 
                 const radio = document.createElement('input');
@@ -3406,12 +3400,19 @@
                 if (revealedAnswers[globalIdx]) {
                     choiceDiv.classList.add('disabled');
                     radio.disabled = true;
-                    if (choiceIdx === (question.correctAnswer -1)) {
+                    if (choiceIdx === question.correctAnswer) {
                         choiceDiv.classList.add('correct');
                     }
-                    if (userAnswers[globalIdx] === choiceIdx && choiceIdx !== (question.correctAnswer -1)) {
+                    if (userAnswers[globalIdx] === choiceIdx && choiceIdx !== question.correctAnswer) {
                         choiceDiv.classList.add('incorrect');
                     }
+                } else {
+                    // *** CHANGED: Make entire choice box clickable ***
+                    choiceDiv.addEventListener('click', () => {
+                        userAnswers[globalIdx] = choiceIdx;
+                        displayQuestions();
+                        updateStats();
+                    });
                 }
 
                 radio.addEventListener('change', () => {
@@ -3456,12 +3457,12 @@
                 const feedback = document.createElement('div');
                 feedback.className = 'feedback';
                 
-                if (userAnswers[globalIdx] === (question.correctAnswer -1)) {
+                if (userAnswers[globalIdx] === question.correctAnswer) {
                     feedback.classList.add('correct');
                     feedback.textContent = '✓ Correct!';
                 } else {
                     feedback.classList.add('incorrect');
-                    feedback.textContent = `✗ Incorrect. The correct answer is: ${question.choices[(question.correctAnswer -1)]}`;
+                    feedback.textContent = `✗ Incorrect. The correct answer is: ${question.choices[question.correctAnswer]}`;
                 }
                 
                 card.appendChild(feedback);
@@ -3507,10 +3508,26 @@
         function randomizeQuestions() {
             if (allQuestions.length === 0) return;
 
+            // *** CHANGED: Shuffle questions ***
             for (let i = allQuestions.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
             }
+
+            // *** CHANGED: Shuffle choices within each question ***
+            allQuestions.forEach(question => {
+                const originalChoices = [...question.choices];
+                const correctChoice = originalChoices[question.correctAnswer];
+                
+                // Shuffle choices
+                for (let i = question.choices.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [question.choices[i], question.choices[j]] = [question.choices[j], question.choices[i]];
+                }
+                
+                // Update correctAnswer to new index
+                question.correctAnswer = question.choices.indexOf(correctChoice);
+            });
 
             userAnswers = {};
             revealedAnswers = {};
@@ -3523,7 +3540,7 @@
             if (allQuestions.length === 0) return;
 
             const wrongQuestions = allQuestions.filter((q, idx) => {
-                return revealedAnswers[idx] && userAnswers[idx] !== (q.correctAnswer -1);
+                return revealedAnswers[idx] && userAnswers[idx] !== q.correctAnswer;
             });
 
             if (wrongQuestions.length === 0) {
@@ -3550,12 +3567,13 @@
             currentPage = Math.max(1, Math.min(currentPage + direction, totalPages));
             displayQuestions();
         }
-        
+
+        // *** ADDED: Navigate to last page ***
         function goToLastPage() {
-    		const totalPages = Math.ceil(allQuestions.length / questionsPerPage);
-    		currentPage = totalPages;
-    		displayQuestions();
-		}
+            const totalPages = Math.ceil(allQuestions.length / questionsPerPage);
+            currentPage = totalPages;
+            displayQuestions();
+        }
 
         function updatePagination() {
             const totalPages = Math.ceil(allQuestions.length / questionsPerPage);
@@ -3572,7 +3590,7 @@
             document.getElementById('answeredCount').textContent = answered;
             
             const correct = allQuestions.filter((q, idx) => {
-                return revealedAnswers[idx] && userAnswers[idx] === (q.correctAnswer -1);
+                return revealedAnswers[idx] && userAnswers[idx] === q.correctAnswer;
             }).length;
             document.getElementById('correctCount').textContent = correct;
         }
