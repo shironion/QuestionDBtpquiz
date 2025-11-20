@@ -3389,12 +3389,6 @@
                 choiceDiv.className = 'choice';
                 if (userAnswers[globalIdx] === choiceIdx) {
                     choiceDiv.classList.add('selected');
-                } else {
-                    choiceDiv.addEventListener('click', () => {
-                    userAnswers[globalIdx] = choiceIdx;
-                    displayQuestions();
-                    updateStats();
-                  });
                 }
 
                 const radio = document.createElement('input');
@@ -3406,12 +3400,19 @@
                 if (revealedAnswers[globalIdx]) {
                     choiceDiv.classList.add('disabled');
                     radio.disabled = true;
-                    if (choiceIdx === (question.correctAnswer -1)) {
+                    if (choiceIdx === question.correctAnswer) {
                         choiceDiv.classList.add('correct');
                     }
-                    if (userAnswers[globalIdx] === choiceIdx && choiceIdx !== (question.correctAnswer -1)) {
+                    if (userAnswers[globalIdx] === choiceIdx && choiceIdx !== question.correctAnswer) {
                         choiceDiv.classList.add('incorrect');
                     }
+                } else {
+                    // *** CHANGED: Make entire choice box clickable ***
+                    choiceDiv.addEventListener('click', () => {
+                        userAnswers[globalIdx] = choiceIdx;
+                        displayQuestions();
+                        updateStats();
+                    });
                 }
 
                 radio.addEventListener('change', () => {
