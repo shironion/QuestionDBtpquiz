@@ -168,6 +168,16 @@ button:active {
     text-align: center;
 }
 
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+    margin: 0 auto 24px;
+    max-width: var(--max-width);
+}
+
 /* ------------------------------ */
 /* Question Cards                 */
 /* ------------------------------ */
@@ -511,7 +521,9 @@ input[type="radio"]:focus-visible {
     <div class="loading"><h2>Loading questions...</h2></div>
 </div>
 
-<div class="footer" style="text-align: center; margin-top: 20px;">
+<div class="footer">
+    <button class="btn-primary" id="prevBtn">← Previous</button>
+    <button class="btn-primary" id="nextBtn">Next →</button>
     <button class="btn-primary" id="returntop">Return to top of page</button>
 </div>
 
